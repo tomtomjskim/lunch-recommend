@@ -18,6 +18,6 @@ export class Preference {
   @ManyToOne(() => Food, (food) => food.preferences)
   food: Food;
 
-  @Column({ type: 'enum', enum: PreferenceType })
+  @Column({ type: 'simple-enum', enum: PreferenceType })
   type: PreferenceType;
 }

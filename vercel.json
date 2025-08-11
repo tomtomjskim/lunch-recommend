@@ -1,0 +1,16 @@
+{
+  "buildCommand": "npm run build:web && npm run build --prefix backend",
+  "outputDirectory": "frontend/build/web",
+  "projects": [
+    {
+      "src": "frontend/build/web",
+      "use": "@vercel/static"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "source": "backend/dist/main.js",
+      "runtime": "nodejs18.x"
+    }
+  }
+}

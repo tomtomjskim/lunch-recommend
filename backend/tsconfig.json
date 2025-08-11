@@ -3,8 +3,14 @@
     "module": "commonjs",
     "target": "es2017",
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "dist/api",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true
   }
 }

@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend API for '오늘점심 뭐 먹지'",
-  "main": "dist/main.js",
+  "main": "dist/api/index.js",
   "scripts": {
     "build": "NODE_ENV=production tsc",
     "start": "node dist/main.js",
@@ -23,8 +23,12 @@
     "typeorm": "^0.3.19"
   },
   "devDependencies": {
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "ts-node": "^10.0.0",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "sqlite3": "^5.1.7"
   },
   "license": "MIT",
   "type": "commonjs"
