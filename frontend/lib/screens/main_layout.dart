@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'group_list_screen.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key});
+  final VoidCallback? onLogout;
+  const MainLayout({super.key, this.onLogout});
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -26,6 +27,14 @@ class _MainLayoutState extends State<MainLayout> {
                   context,
                   MaterialPageRoute(builder: (_) => const GroupListScreen()),
                 );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.pop(context);
+                widget.onLogout?.call();
               },
             ),
           ],
