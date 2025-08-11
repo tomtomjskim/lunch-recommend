@@ -8,6 +8,7 @@ import { Preference } from './entities/preference.entity';
 import { User } from './entities/user.entity';
 import { FoodsModule } from './foods/foods.module';
 import { PreferencesModule } from './preferences/preferences.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { PreferencesModule } from './preferences/preferences.module';
     FoodsModule,
     CategoriesModule,
     PreferencesModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

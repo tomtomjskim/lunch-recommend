@@ -17,8 +17,8 @@ export class PreferencesService {
     private readonly foodsRepo: Repository<Food>,
   ) {}
 
-  async create(dto: CreatePreferenceDto): Promise<Preference> {
-    const user = await this.usersRepo.findOne({ where: { id: dto.userId } });
+  async create(userId: number, dto: CreatePreferenceDto): Promise<Preference> {
+    const user = await this.usersRepo.findOne({ where: { id: userId } });
     const food = await this.foodsRepo.findOne({ where: { id: dto.foodId } });
     if (!user || !food) {
       throw new NotFoundException('User or Food not found');
@@ -31,7 +31,7 @@ export class PreferencesService {
     return this.prefRepo.save(pref);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.prefRepo.delete(id);
+  async remove(userId: number, id: number): Promise<void> {
+    await this.prefRepo.delete({ id, user: { id: userId } });
   }
 }

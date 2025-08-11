@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { FoodsService } from './foods.service';
 
@@ -16,8 +17,9 @@ export class FoodsController {
     return this.foodsService.findRandom();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('recommended')
-  recommended(@Query('userId') userId: string) {
-    return this.foodsService.findRecommended(Number(userId));
+  recommended(@Req() req: any) {
+    return this.foodsService.findRecommended(req.user.userId);
   }
 }

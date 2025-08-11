@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreatePreferenceDto } from './dto/create-preference.dto';
 import { PreferencesService } from './preferences.service';
 
@@ -6,13 +15,15 @@ import { PreferencesService } from './preferences.service';
 export class PreferencesController {
   constructor(private readonly preferencesService: PreferencesService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() dto: CreatePreferenceDto) {
-    return this.preferencesService.create(dto);
+  create(@Req() req: any, @Body() dto: CreatePreferenceDto) {
+    return this.preferencesService.create(req.user.userId, dto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.preferencesService.remove(Number(id));
+  remove(@Req() req: any, @Param('id') id: string) {
+    return this.preferencesService.remove(req.user.userId, Number(id));
   }
 }
