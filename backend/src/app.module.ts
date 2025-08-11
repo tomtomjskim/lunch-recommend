@@ -11,7 +11,10 @@ import { GroupMember } from './entities/group-member.entity';
 import { FoodsModule } from './foods/foods.module';
 import { PreferencesModule } from './preferences/preferences.module';
 import { AuthModule } from './auth/auth.module';
-import { GroupsModule } from './groups/groups.module';
+import { Poll } from './entities/poll.entity';
+import { PollOption } from './entities/poll-option.entity';
+import { Vote } from './entities/vote.entity';
+import { PollsModule } from './polls/polls.module';
 
 @Module({
   imports: [
@@ -22,14 +25,14 @@ import { GroupsModule } from './groups/groups.module';
       username: process.env.DB_USER || 'postgres',
       password: process.env.DB_PASS || 'postgres',
       database: process.env.DB_NAME || 'lunch',
-      entities: [User, Food, Category, FoodCategory, Preference, Group, GroupMember],
+      entities: [User, Food, Category, FoodCategory, Preference, Poll, PollOption, Vote],
       synchronize: true,
     }),
     FoodsModule,
     CategoriesModule,
     PreferencesModule,
     AuthModule,
-    GroupsModule,
+    PollsModule,
   ],
 })
 export class AppModule {}
