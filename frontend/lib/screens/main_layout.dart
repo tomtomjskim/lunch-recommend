@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/banner_placeholder.dart';
 import 'group_list_screen.dart';
 
 class MainLayout extends StatefulWidget {
@@ -34,6 +35,7 @@ class _MainLayoutState extends State<MainLayout> {
       body: const Center(
         child: Text('Welcome'),
       ),
+      bottomNavigationBar: const BannerPlaceholder(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/banner_placeholder.dart';
 import '../services/apis/groups_api.dart';
 import 'group_detail_screen.dart';
 import 'group_create_join_screen.dart';
@@ -65,6 +66,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
           );
         },
       ),
+      bottomNavigationBar: const BannerPlaceholder(),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.push(

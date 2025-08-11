@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../../widgets/banner_placeholder.dart';
 import '../../services/apis/poll_api.dart';
 
 class GroupDetailScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const BannerPlaceholder(),
     );
   }
 }
