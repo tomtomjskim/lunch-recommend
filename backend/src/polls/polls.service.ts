@@ -24,14 +24,18 @@ export class PollsService {
     return this.pollRepo.save(poll);
   }
 
-  async findOne(id: number): Promise<Poll> {
+  async findOne(id: number): Promise<Poll | null> {
     return this.pollRepo.findOne({
       where: { id },
       relations: ['options', 'options.votes', 'options.votes.user'],
     });
   }
 
-  async vote(pollId: number, optionId: number, user: User): Promise<Poll> {
+  async vote(
+    pollId: number,
+    optionId: number,
+    user: User,
+  ): Promise<Poll | null> {
     const option = await this.optionRepo.findOne({
       where: { id: optionId },
       relations: ['poll'],
