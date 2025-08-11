@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/banner_placeholder.dart';
 import '../services/apis/groups_api.dart';
 
 class GroupDetailScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           );
         },
       ),
+      bottomNavigationBar: const BannerPlaceholder(),
     );
   }
 }

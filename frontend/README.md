@@ -17,6 +17,10 @@ flutter create .
 
 > Note: Flutter SDK is not installed in this environment. This directory contains a placeholder structure.
 
+## Banner Guidelines
+
+- Use `BannerPlaceholder` (`lib/widgets/banner_placeholder.dart`) as the `bottomNavigationBar` of major screens to reserve space for ads.
+- Replace this widget with a real banner implementation when integrating advertising.
 ## Deployment
 
 To build and host the web app:
