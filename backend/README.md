@@ -18,6 +18,15 @@ npm run start:dev
 
 > Note: This project skeleton was generated without downloading any packages. Ensure required dependencies like NestJS and TypeORM are installed before running.
 
+## Environment Variables
+
+Set the following variables in your environment or Vercel dashboard:
+
+- `DATABASE_URL`: PostgreSQL connection string used by TypeORM.
+- `JWT_SECRET`: Secret key for signing JWT tokens.
+
+These must be present for the server to start.
+
 ## Docker
 
 Build the image:

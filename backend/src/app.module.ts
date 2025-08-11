@@ -20,6 +20,8 @@ import { PollsModule } from './polls/polls.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
+      url: process.env.DATABASE_URL,
+      entities: [User, Food, Category, FoodCategory, Preference],
       host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT || '5432', 10),
       username: process.env.DB_USER || 'postgres',

@@ -4,9 +4,9 @@
   "description": "Backend API for '오늘점심 뭐 먹지'",
   "main": "dist/api/index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/api/index.js",
-    "start:dev": "ts-node-dev src/index.ts",
+    "build": "NODE_ENV=production tsc",
+    "start": "node dist/main.js",
+    "start:dev": "ts-node-dev src/main.ts",
     "test": "echo \"No tests yet\""
   },
   "dependencies": {
