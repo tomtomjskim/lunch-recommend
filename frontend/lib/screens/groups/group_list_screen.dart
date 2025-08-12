@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/banner_placeholder.dart';
-import '../services/apis/groups_api.dart';
+import '../../services/api.dart';
+import '../../widgets/banner_placeholder.dart';
 import 'group_detail_screen.dart';
 import 'group_create_join_screen.dart';
 
@@ -12,18 +12,18 @@ class GroupListScreen extends StatefulWidget {
 }
 
 class _GroupListScreenState extends State<GroupListScreen> {
-  final GroupsApi api = GroupsApi();
+  final ApiService api = ApiService();
   late Future<List<dynamic>> _groups;
 
   @override
   void initState() {
     super.initState();
-    _groups = api.fetchGroups();
+    _groups = api.getGroups();
   }
 
   void _refresh() {
     setState(() {
-      _groups = api.fetchGroups();
+      _groups = api.getGroups();
     });
   }
 
