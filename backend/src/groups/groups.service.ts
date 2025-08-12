@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, QueryFailedError } from 'typeorm';
 import { Group } from '../entities/group.entity';
 import { GroupMember } from '../entities/group-member.entity';
 import { User } from '../entities/user.entity';
@@ -18,9 +18,26 @@ export class GroupsService {
 
   async create(name: string, ownerId: number): Promise<Group> {
     const owner = await this.usersRepo.findOneByOrFail({ id: ownerId });
-    const invitationCode = Math.random().toString(36).slice(2, 8);
+
+    let invitationCode: string;
+    do {
+      invitationCode = Math.random().toString(36).slice(2, 8);
+    } while (await this.groupsRepo.exist({ where: { invitationCode } }));
+
     const group = this.groupsRepo.create({ name, owner, invitationCode });
-    await this.groupsRepo.save(group);
+
+    try {
+      await this.groupsRepo.save(group);
+    } catch (err) {
+      if (
+        err instanceof QueryFailedError &&
+        (err as any).driverError?.code === '23505'
+      ) {
+        throw new ConflictException('Invitation code already exists');
+      }
+      throw err;
+    }
+
     const membership = this.membersRepo.create({ group, user: owner, role: 'owner' });
     await this.membersRepo.save(membership);
     return group;
@@ -31,6 +48,14 @@ export class GroupsService {
     const user = await this.usersRepo.findOneByOrFail({ id: userId });
     const member = this.membersRepo.create({ group, user, role: 'member' });
     return this.membersRepo.save(member);
+  }
+
+  async findAllForUser(user: User): Promise<Group[]> {
+    const memberships = await this.membersRepo.find({
+      where: { user: { id: (user as any).userId } },
+      relations: ['group', 'group.owner'],
+    });
+    return memberships.map((m) => m.group);
   }
 
   async detail(id: number): Promise<Group | null> {

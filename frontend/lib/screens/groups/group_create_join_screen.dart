@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/apis/groups_api.dart';
+import '../../services/api.dart';
 
 class GroupCreateJoinScreen extends StatefulWidget {
   const GroupCreateJoinScreen({super.key});
@@ -9,7 +9,7 @@ class GroupCreateJoinScreen extends StatefulWidget {
 }
 
 class _GroupCreateJoinScreenState extends State<GroupCreateJoinScreen> {
-  final GroupsApi api = GroupsApi();
+  final ApiService api = ApiService();
   final TextEditingController _nameCtrl = TextEditingController();
   final TextEditingController _codeCtrl = TextEditingController();
   bool _loading = false;
@@ -45,8 +45,6 @@ class _GroupCreateJoinScreenState extends State<GroupCreateJoinScreen> {
       await api.joinGroup(_codeCtrl.text);
       if (!mounted) return;
       Navigator.pop(context, true);
-    } on InvalidInviteCodeException {
-      setState(() => _joinError = 'Invalid invite code');
     } catch (_) {
       setState(() => _joinError = 'Failed to join group');
     } finally {
