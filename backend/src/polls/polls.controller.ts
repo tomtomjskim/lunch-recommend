@@ -1,17 +1,7 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Delete,
-  Param,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { PollsService } from './polls.service';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { VoteDto } from './dto/vote.dto';
 
 @Controller('polls')
 export class PollsController {
