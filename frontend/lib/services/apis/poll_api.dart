@@ -38,4 +38,16 @@ class PollApi {
     await http.delete(Uri.parse('$baseUrl/polls/$pollId/vote'),
         headers: _headers());
   }
+
+  Future<Map<String, dynamic>> getOptions(int pollId) async {
+    final res = await http.get(Uri.parse('$baseUrl/polls/$pollId/options'),
+        headers: _headers());
+    return jsonDecode(res.body) as Map<String, dynamic>;
+  }
+
+  Future<Map<String, dynamic>> getResults(int pollId) async {
+    final res = await http.get(Uri.parse('$baseUrl/polls/$pollId/results'),
+        headers: _headers());
+    return jsonDecode(res.body) as Map<String, dynamic>;
+  }
 }
