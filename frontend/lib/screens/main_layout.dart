@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/banner_placeholder.dart';
-import 'group_list_screen.dart';
+import 'groups/group_list_screen.dart';
 
 class MainLayout extends StatefulWidget {
   final VoidCallback? onLogout;

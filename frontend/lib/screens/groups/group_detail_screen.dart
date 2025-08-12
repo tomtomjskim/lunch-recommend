@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/banner_placeholder.dart';
-import '../services/apis/groups_api.dart';
+import '../../services/api.dart';
+import '../../widgets/banner_placeholder.dart';
 
 class GroupDetailScreen extends StatefulWidget {
   final String groupId;
@@ -11,13 +11,20 @@ class GroupDetailScreen extends StatefulWidget {
 }
 
 class _GroupDetailScreenState extends State<GroupDetailScreen> {
-  final GroupsApi api = GroupsApi();
+  final ApiService api = ApiService();
   late Future<Map<String, dynamic>> _group;
 
   @override
   void initState() {
     super.initState();
-    _group = api.fetchGroupDetail(widget.groupId);
+    _group = api.getGroup(widget.groupId);
+  }
+
+  Future<void> _removeMember(String userId) async {
+    await api.removeMember(widget.groupId, userId);
+    setState(() {
+      _group = api.getGroup(widget.groupId);
+    });
   }
 
   @override
@@ -35,7 +42,6 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           }
           final g = snapshot.data ?? {};
           final members = g['members'] as List<dynamic>? ?? [];
-          final isOwner = g['isOwner'] == true;
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -45,18 +51,21 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               ),
               const SizedBox(height: 16),
               Text('Members', style: Theme.of(context).textTheme.titleMedium),
-              ...members.map((m) => ListTile(title: Text(m['name'] ?? 'Member'))),
-              const SizedBox(height: 24),
-              if (isOwner)
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Manage Group'),
-                )
-              else
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Leave Group'),
-                ),
+              ...members.map((m) {
+                final user = m['user'] as Map<String, dynamic>? ?? {};
+                final role = m['role'] ?? '';
+                return ListTile(
+                  title: Text(user['nickname'] ?? 'Member'),
+                  subtitle: Text(role),
+                  trailing: role == 'owner'
+                      ? const Text('Owner')
+                      : IconButton(
+                          icon: const Icon(Icons.remove_circle_outline),
+                          onPressed: () =>
+                              _removeMember(user['id'].toString()),
+                        ),
+                );
+              }),
             ],
           );
         },
