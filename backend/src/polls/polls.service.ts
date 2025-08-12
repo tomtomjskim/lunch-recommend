@@ -31,18 +31,17 @@ export class PollsService {
     });
   }
 
-  async vote(
-    pollId: number,
-    optionId: number,
-    user: User,
-  ): Promise<Poll | null> {
+  async vote(optionId: number, user: User): Promise<Poll | null> {
     const option = await this.optionRepo.findOne({
       where: { id: optionId },
       relations: ['poll'],
     });
-    if (!option || option.poll.id !== pollId) {
+    if (!option) {
       throw new Error('Invalid option');
     }
+
+    const pollId = option.poll.id;
+
     let vote = await this.voteRepo.findOne({
       where: {
         user: { id: user.id },
@@ -50,24 +49,23 @@ export class PollsService {
       },
       relations: ['option', 'option.poll', 'user'],
     });
+
     if (vote) {
       vote.option = option;
     } else {
       vote = this.voteRepo.create({ option, user });
     }
+
     await this.voteRepo.save(vote);
     return this.findOne(pollId);
   }
 
-  async retractVote(pollId: number, user: User): Promise<void> {
+  async retractVote(voteId: number, user: User): Promise<void> {
     const vote = await this.voteRepo.findOne({
-      where: {
-        user: { id: user.id },
-        option: { poll: { id: pollId } },
-      },
-      relations: ['option', 'option.poll', 'user'],
+      where: { id: voteId },
+      relations: ['user'],
     });
-    if (vote) {
+    if (vote && vote.user.id === user.id) {
       await this.voteRepo.remove(vote);
     }
   }

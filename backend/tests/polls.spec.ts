@@ -57,13 +57,14 @@ async function run() {
   assert.equal(found!.options.length, 2);
 
   // vote
-  await service.vote(found!.id, found!.options[0].id, user);
+  await service.vote(found!.options[0].id, user);
   const afterVote = await service.findOne(found!.id);
   assert.equal(afterVote!.options[0].votes.length, 1);
   assert.equal(afterVote!.options[0].votes[0].user.id, user.id);
 
   // retract
-  await service.retractVote(found!.id, user);
+  const voteId = afterVote!.options[0].votes[0].id;
+  await service.retractVote(voteId, user);
   const afterRetract = await service.findOne(found!.id);
   assert.equal(afterRetract!.options[0].votes.length, 0);
   assert.equal(afterRetract!.options[1].votes.length, 0);
