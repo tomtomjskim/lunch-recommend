@@ -33,6 +33,14 @@ export class GroupsService {
     return this.membersRepo.save(member);
   }
 
+  async findAllForUser(user: User): Promise<Group[]> {
+    const memberships = await this.membersRepo.find({
+      where: { user: { id: (user as any).userId } },
+      relations: ['group', 'group.owner'],
+    });
+    return memberships.map((m) => m.group);
+  }
+
   async detail(id: number): Promise<Group | null> {
     return this.groupsRepo.findOne({
       where: { id },

@@ -1,5 +1,15 @@
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { GroupsService } from './groups.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('groups')
 export class GroupsController {
@@ -13,6 +23,12 @@ export class GroupsController {
   @Post('join')
   join(@Body('code') code: string, @Body('userId') userId: number) {
     return this.groupsService.join(code, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll(@Req() req: any) {
+    return this.groupsService.findAllForUser(req.user);
   }
 
   @Get(':id')
