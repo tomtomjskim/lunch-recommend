@@ -33,14 +33,14 @@ export class PollsController {
   vote(
     @Param('id') id: string,
     @Body() dto: VoteDto,
-    @Request() req,
+    @Request() req: any,
   ) {
     return this.pollsService.vote(parseInt(id, 10), dto.optionId, req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id/vote')
-  async retract(@Param('id') id: string, @Request() req) {
+  async retract(@Param('id') id: string, @Request() req: any) {
     await this.pollsService.retractVote(parseInt(id, 10), req.user);
     return { success: true };
   }
